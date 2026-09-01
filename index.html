@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0f12" />
+  <title>Cananım 🤍</title>
+  <style>
+    :root{--bg:#0f0f12;--card:#18181d;--text:#f6f3ef;--muted:#aaa6a2;--accent:#ff7a9d;--accent2:#ffd3df}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+    body{min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .glow{position:fixed;inset:auto 50% -180px auto;width:360px;height:360px;transform:translateX(50%);background:radial-gradient(circle,rgba(255,122,157,.24),transparent 68%);filter:blur(10px);pointer-events:none}
+    main{width:min(100%,480px);min-height:100dvh;padding:calc(24px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center}
+    .screen{width:100%;display:none;animation:fade .5s ease both}.screen.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+    h1{font-size:clamp(38px,11vw,56px);line-height:.98;letter-spacing:-.045em;margin:0 0 18px}
+    h2{font-size:32px;line-height:1.05;letter-spacing:-.03em;margin:0 0 14px}
+    p{font-size:18px;line-height:1.55;color:var(--muted);margin:0 0 28px}
+    .strong{color:var(--text)}
+    button{width:100%;border:0;border-radius:18px;padding:17px 18px;font-size:17px;font-weight:700;cursor:pointer}
+    .primary{background:var(--text);color:#111}.ghost{background:var(--card);color:var(--text);margin-top:10px}
+    .choices{display:grid;gap:10px;margin-top:22px}.choice{text-align:left;background:var(--card);color:var(--text);font-weight:600}
+    .heart-wrap{height:220px;display:grid;place-items:center;user-select:none;touch-action:none}
+    .heart{font-size:86px;transform:scale(1);filter:drop-shadow(0 12px 32px rgba(255,122,157,.24));transition:transform .08s linear}
+    .meter{height:8px;background:#24242a;border-radius:99px;overflow:hidden;margin:8px 0 12px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .06s linear}
+    .hint{text-align:center;font-size:14px;color:var(--muted)}
+    .reward{background:linear-gradient(180deg,#1a171a,#17171b);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:24px;margin:20px 0 18px;text-align:center}
+    .reward .emoji{font-size:48px;margin-bottom:10px}.reward .text{font-size:22px;font-weight:800;line-height:1.2}
+    .status{margin-top:28px;padding:18px;border-radius:20px;background:var(--card);font-size:15px;line-height:1.9;color:var(--muted)}
+    .status b{color:var(--text)}.online{color:#75df98;font-weight:800}
+    .tiny{font-size:13px;color:#777;margin-top:18px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <main>
+    <section class="screen active" id="s1">
+      <div class="eyebrow">Sana küçük bir şey yaptım</div>
+      <h1>Cananım,<br>bugün iyi hissetmek zorunda değilsin. 🤍</h1>
+      <p>Biraz olsun yüzünü güldürür mü bilmiyorum ama <span class="strong">yanında olduğumu</span> hatırlatsın istedim.</p>
+      <button class="primary" onclick="go('s2')">Başlat</button>
+    </section>
+
+    <section class="screen" id="s2">
+      <div class="eyebrow">Önce bir yoklama</div>
+      <h2>Şu an nasıl hissediyorsun?</h2>
+      <p>Doğru cevap yok. Zaten bugün sınav yapmıyoruz, hayat yeterince uğraşıyor.</p>
+      <div class="choices">
+        <button class="choice" onclick="pick('Kötü hissediyorsan da tamam. Ben seni sadece iyi günlerinde sevmiyorum.')">😔 Kötü</button>
+        <button class="choice" onclick="pick('Yorgunsan dinlen. Dünyayı bugün sen kurtarmak zorunda değilsin.')">😴 Yorgun</button>
+        <button class="choice" onclick="pick('İlgi lazımsa resmi karar çıktı: bugün bütün ilgi senin.')">🥺 Biraz ilgi lazım</button>
+        <button class="choice" onclick="pick('Her şey sinir bozucu olabilir. Ben yine de senin tarafındayım.')">😤 Her şey sinirimi bozuyor</button>
+      </div>
+    </section>
+
+    <section class="screen" id="s3">
+      <div class="eyebrow">Bunu bil istedim</div>
+      <h2 id="message"></h2>
+      <p>Şimdi küçük bir şarj işlemi var. Bilimsel değil, sevgili destekli.</p>
+      <button class="primary" onclick="go('s4')">Devam et</button>
+    </section>
+
+    <section class="screen" id="s4">
+      <div class="eyebrow">Kalbe basılı tut</div>
+      <h2>Biraz enerji yükleyelim.</h2>
+      <div class="heart-wrap" id="holdArea"><div class="heart" id="heart">💗</div></div>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+      <div class="hint" id="hint">Kalbe basılı tut…</div>
+    </section>
+
+    <section class="screen" id="s5">
+      <div class="eyebrow">Şarj tamamlandı</div>
+      <h2>Biraz daha iyi değilsen bile, tek başına değilsin.</h2>
+      <p>Ve şimdi kritik sistem devreye girebilir.</p>
+      <button class="primary" onclick="reward()">🚨 Acil sevgili protokolü</button>
+    </section>
+
+    <section class="screen" id="s6">
+      <div class="eyebrow">Kazandın</div>
+      <div class="reward"><div class="emoji" id="rewardEmoji">🫂</div><div class="text" id="rewardText">Süresiz sarılma hakkı</div></div>
+      <button class="ghost" onclick="reward()">Bir tane daha çek</button>
+      <button class="primary" style="margin-top:10px" onclick="go('s7')">Son bir şey</button>
+    </section>
+
+    <section class="screen" id="s7">
+      <div class="eyebrow">System status</div>
+      <h2>Cananım 🤍</h2>
+      <div class="status">
+        Sen: <b>biraz keyifsiz olabilirsin</b><br>
+        Ben: <b>yanındayım</b><br>
+        Seni sevme servisi: <span class="online">ONLINE ●</span><br>
+        Tahmini kapanış tarihi: <b>yok</b>
+      </div>
+      <p style="margin-top:26px" class="strong">Bugün dünyayla uğraşacak enerjin yoksa uğraşma. Birazını ben taşırım. 🤍</p>
+      <div class="tiny">Bu sayfa sadece seni biraz gülümsetmek için var.</div>
+    </section>
+  </main>
+
+<script>
+  function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}
+  function pick(text){document.getElementById('message').textContent=text;go('s3')}
+
+  const rewards=[
+    ['💋','1 adet öpücük kazandın'],
+    ['🫂','Süresiz sarılma hakkı'],
+    ['🍫','Tatlı borçlandım'],
+    ['🎬','Bu akşam filmi sen seçiyorsun'],
+    ['☕','Kahve benden'],
+    ['👑','Bugün naz yapma kotan sınırsız'],
+    ['❤️','Seni sevme işlemi zaten arka planda çalışıyor']
+  ];
+  function reward(){const r=rewards[Math.floor(Math.random()*rewards.length)];document.getElementById('rewardEmoji').textContent=r[0];document.getElementById('rewardText').textContent=r[1];go('s6');if(navigator.vibrate)navigator.vibrate(35)}
+
+  const area=document.getElementById('holdArea'),heart=document.getElementById('heart'),fill=document.getElementById('fill'),hint=document.getElementById('hint');
+  let timer=null,progress=0;
+  function startHold(e){e.preventDefault();if(timer)return;timer=setInterval(()=>{progress=Math.min(100,progress+2);fill.style.width=progress+'%';heart.style.transform=`scale(${1+progress/180})`;hint.textContent='%'+progress+' şarj';if(progress>=100){clearInterval(timer);timer=null;if(navigator.vibrate)navigator.vibrate([40,40,80]);setTimeout(()=>go('s5'),350)}},45)}
+  function stopHold(){if(timer){clearInterval(timer);timer=null}if(progress<100)hint.textContent='Biraz daha… kalbe basılı tut'}
+  ['pointerdown','touchstart'].forEach(ev=>area.addEventListener(ev,startHold,{passive:false}));
+  ['pointerup','pointercancel','pointerleave','touchend'].forEach(ev=>area.addEventListener(ev,stopHold));
+</script>
+</body>
+</html>
