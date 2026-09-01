@@ -1,180 +1,34 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#ead2d7" />
-  <title>Cananım 🤍</title>
-  <style>
-    :root{--bg:#ead2d7;--card:#f4e5e8;--text:#4b3138;--muted:#80656c;--accent:#c98596;--accent2:#f1c6d0}
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
-    body{min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .glow{position:fixed;inset:auto 50% -180px auto;width:360px;height:360px;transform:translateX(50%);background:radial-gradient(circle,rgba(255,244,247,.7),transparent 68%);filter:blur(10px);pointer-events:none}
-    .hearts{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-    .float-heart{position:absolute;bottom:-60px;color:rgba(201,133,150,.34);font-size:20px;filter:drop-shadow(0 4px 10px rgba(75,49,56,.08));animation:floatUp linear infinite;will-change:transform,opacity}
-    @keyframes floatUp{0%{transform:translate3d(0,0,0) rotate(0deg) scale(.9);opacity:0}12%{opacity:.55}50%{transform:translate3d(var(--drift),-55vh,0) rotate(8deg) scale(1)}88%{opacity:.4}100%{transform:translate3d(calc(var(--drift) * -0.45),-115vh,0) rotate(-8deg) scale(1.08);opacity:0}}
-    main{position:relative;z-index:1;width:min(100%,480px);min-height:100dvh;padding:calc(24px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center}
-    .screen{width:100%;display:none;animation:fade .5s ease both}.screen.active{display:block}
-    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
-    h1{font-size:clamp(34px,10vw,52px);line-height:1.02;letter-spacing:-.04em;margin:0 0 18px}
-    h2{font-size:32px;line-height:1.05;letter-spacing:-.03em;margin:0 0 14px}
-    p{font-size:18px;line-height:1.55;color:var(--muted);margin:0 0 28px}
-    .strong{color:var(--text)}
-    button{width:100%;border:0;border-radius:18px;padding:17px 18px;font-size:17px;font-weight:700;cursor:pointer}
-    .primary{background:var(--text);color:#fff8fa}.ghost{background:var(--card);color:var(--text);margin-top:10px}
-    .intro-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;min-height:58px}
-    .intro-actions .yes{background:var(--text);color:#fff8fa}
-    .intro-actions .no{background:var(--card);color:var(--text);box-shadow:0 8px 24px rgba(75,49,56,.07);touch-action:none}
-    .no.fleeing{position:fixed;width:132px;z-index:20;transition:left .16s ease,top .16s ease,transform .16s ease;box-shadow:0 14px 30px rgba(75,49,56,.14)}
-    .choices{display:grid;gap:10px;margin-top:22px}.choice{text-align:left;background:var(--card);color:var(--text);font-weight:600;box-shadow:0 8px 24px rgba(75,49,56,.05)}
-    .heart-wrap{height:220px;display:grid;place-items:center;user-select:none;touch-action:none}
-    .heart{font-size:86px;transform:scale(1);filter:drop-shadow(0 12px 32px rgba(201,133,150,.28));transition:transform .08s linear}
-    .meter{height:8px;background:#dec2c8;border-radius:99px;overflow:hidden;margin:8px 0 12px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .06s linear}
-    .hint{text-align:center;font-size:14px;color:var(--muted)}
-    .reward{background:linear-gradient(180deg,#f7e9ec,#f0dce1);border:1px solid rgba(75,49,56,.08);border-radius:24px;padding:24px;margin:20px 0 18px;text-align:center;box-shadow:0 14px 34px rgba(75,49,56,.06)}
-    .reward .emoji{font-size:48px;margin-bottom:10px}.reward .text{font-size:22px;font-weight:800;line-height:1.2}
-    .status{margin-top:28px;padding:18px;border-radius:20px;background:var(--card);font-size:15px;line-height:1.9;color:var(--muted);box-shadow:0 10px 28px rgba(75,49,56,.05)}
-    .status b{color:var(--text)}.online{color:#56875f;font-weight:800}
-    .tiny{font-size:13px;color:#92767d;margin-top:18px;text-align:center}
-    @media (max-width:380px){.intro-actions{grid-template-columns:1fr}.no.fleeing{width:118px}}
-    @media (prefers-reduced-motion:reduce){.float-heart{animation:none;display:none}.screen{animation:none}.no.fleeing{transition:none}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ead2d7">
+<title>Cananım 🤍</title>
+<style>
+:root{--bg:#ead2d7;--card:#f7e8eb;--text:#4b3138;--muted:#80656c;--pink:#c98596}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}button{font:inherit;border:0;cursor:pointer}.screen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:30px 24px calc(30px + env(safe-area-inset-bottom));text-align:center}.screen.active{display:flex;animation:fade .65s ease both}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.content{width:min(100%,430px);position:relative;z-index:5}h1,h2{margin:0 auto;color:var(--text);letter-spacing:-.025em;font-weight:650}h1{font-size:clamp(27px,7.4vw,36px);line-height:1.22}h2{font-size:clamp(24px,6.7vw,32px);line-height:1.28}.love{margin-top:32px;padding:15px 30px;border-radius:999px;background:var(--text);color:#fff8fa;font-weight:700;font-size:16px;box-shadow:0 10px 30px rgba(75,49,56,.14)}.answers{display:flex;gap:12px;justify-content:center;margin-top:34px;min-height:54px}.yes,.no{width:132px;padding:15px;border-radius:999px;font-weight:700;font-size:16px}.yes{background:var(--text);color:white}.no{background:rgba(255,255,255,.45);color:var(--text);border:1px solid rgba(75,49,56,.08)}.no.running{position:fixed;z-index:30;width:120px;transition:left .16s ease,top .16s ease}.floaters{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}.fh{position:absolute;bottom:-40px;color:rgba(201,133,150,.28);animation:up linear infinite}@keyframes up{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.55}100%{transform:translateY(-115vh) translateX(var(--d)) rotate(18deg);opacity:0}}
+#memory{background:#e6ccd2;overflow:hidden}.photo{position:absolute;width:clamp(105px,31vw,155px);height:clamp(145px,43vw,210px);object-fit:cover;border-radius:20px;padding:5px;background:#fff8fa;box-shadow:0 14px 38px rgba(75,49,56,.18);opacity:0;animation:drift 12s ease-in-out infinite;z-index:1}.photo:nth-child(1){left:-7%;top:8%;--r:-9deg;animation-delay:0s}.photo:nth-child(2){right:-5%;top:12%;--r:8deg;animation-delay:1.2s}.photo:nth-child(3){left:2%;bottom:5%;--r:7deg;animation-delay:2.4s}.photo:nth-child(4){right:0%;bottom:3%;--r:-7deg;animation-delay:3.6s}.photo:nth-child(5){left:34%;top:-7%;--r:3deg;animation-delay:4.8s}@keyframes drift{0%{opacity:0;transform:translateY(25px) rotate(var(--r)) scale(.92)}12%,78%{opacity:.78}45%{transform:translateY(-14px) translateX(8px) rotate(var(--r)) scale(1)}100%{opacity:0;transform:translateY(-35px) translateX(-5px) rotate(var(--r)) scale(.94)}}.memory-shade{position:absolute;inset:0;background:radial-gradient(circle at center,rgba(234,210,215,.72) 0,rgba(234,210,215,.4) 38%,rgba(234,210,215,.14) 75%);z-index:2}.typebox{position:relative;z-index:4;width:min(86vw,390px);min-height:190px;display:flex;align-items:center;justify-content:center;padding:24px;border-radius:26px;background:rgba(247,232,235,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 15px 50px rgba(75,49,56,.08)}#typed{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(17px,4.8vw,21px);line-height:1.62;font-weight:550;text-align:left;margin:0}.cursor{display:inline-block;width:2px;height:1em;background:var(--text);vertical-align:-2px;animation:blink .7s steps(1) infinite}@keyframes blink{50%{opacity:0}}#heartScene{pointer-events:none;position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:transparent}#heartScene.show{display:flex}.big-heart{font-size:64px;opacity:0;animation:heartTakeover 5.2s cubic-bezier(.2,.7,.25,1) forwards;filter:drop-shadow(0 12px 35px rgba(201,133,150,.35))}@keyframes heartTakeover{0%{opacity:0;transform:scale(.25)}15%{opacity:1;transform:scale(.8)}72%{opacity:1;transform:scale(13)}100%{opacity:0;transform:scale(17)}}@media(prefers-reduced-motion:reduce){.fh{display:none}.photo{animation-duration:20s}}
+</style>
 </head>
 <body>
-  <div class="glow"></div>
-  <div class="hearts" aria-hidden="true" id="hearts"></div>
-  <main>
-    <section class="screen active" id="s1">
-      <div class="eyebrow">Cananım 🤍</div>
-      <h1>Dünyayı hassas kalpler için cehenneme çevirenlere inat, cenneti yaşamaya var mısın sevgilim?</h1>
-      <p><span class="strong">Değerli bir kalbe güzelliğini hatırlatma vakti gelmedi mi sence?</span></p>
-      <div class="intro-actions" id="introActions">
-        <button class="yes" onclick="go('s2')">Evet 🤍</button>
-        <button class="no" id="noBtn" aria-label="Hayır">Hayır</button>
-      </div>
-    </section>
-
-    <section class="screen" id="s2">
-      <div class="eyebrow">Önce bir yoklama</div>
-      <h2>Şu an nasıl hissediyorsun?</h2>
-      <p>Doğru cevap yok. Zaten bugün sınav yapmıyoruz, hayat yeterince uğraşıyor.</p>
-      <div class="choices">
-        <button class="choice" onclick="pick('Kötü hissediyorsan da tamam. Ben seni sadece iyi günlerinde sevmiyorum.')">😔 Kötü</button>
-        <button class="choice" onclick="pick('Yorgunsan dinlen. Dünyayı bugün sen kurtarmak zorunda değilsin.')">😴 Yorgun</button>
-        <button class="choice" onclick="pick('İlgi lazımsa resmi karar çıktı: bugün bütün ilgi senin.')">🥺 Biraz ilgi lazım</button>
-        <button class="choice" onclick="pick('Her şey sinir bozucu olabilir. Ben yine de senin tarafındayım.')">😤 Her şey sinirimi bozuyor</button>
-      </div>
-    </section>
-
-    <section class="screen" id="s3">
-      <div class="eyebrow">Bunu bil istedim</div>
-      <h2 id="message"></h2>
-      <p>Şimdi küçük bir şarj işlemi var. Bilimsel değil, sevgili destekli.</p>
-      <button class="primary" onclick="go('s4')">Devam et</button>
-    </section>
-
-    <section class="screen" id="s4">
-      <div class="eyebrow">Kalbe basılı tut</div>
-      <h2>Biraz enerji yükleyelim.</h2>
-      <div class="heart-wrap" id="holdArea"><div class="heart" id="heart">💗</div></div>
-      <div class="meter"><div class="fill" id="fill"></div></div>
-      <div class="hint" id="hint">Kalbe basılı tut…</div>
-    </section>
-
-    <section class="screen" id="s5">
-      <div class="eyebrow">Şarj tamamlandı</div>
-      <h2>Biraz daha iyi değilsen bile, tek başına değilsin.</h2>
-      <p>Ve şimdi kritik sistem devreye girebilir.</p>
-      <button class="primary" onclick="reward()">🚨 Acil sevgili protokolü</button>
-    </section>
-
-    <section class="screen" id="s6">
-      <div class="eyebrow">Kazandın</div>
-      <div class="reward"><div class="emoji" id="rewardEmoji">🫂</div><div class="text" id="rewardText">Süresiz sarılma hakkı</div></div>
-      <button class="ghost" onclick="reward()">Bir tane daha çek</button>
-      <button class="primary" style="margin-top:10px" onclick="go('s7')">Son bir şey</button>
-    </section>
-
-    <section class="screen" id="s7">
-      <div class="eyebrow">System status</div>
-      <h2>Cananım 🤍</h2>
-      <div class="status">
-        Sen: <b>biraz keyifsiz olabilirsin</b><br>
-        Ben: <b>yanındayım</b><br>
-        Seni sevme servisi: <span class="online">ONLINE ●</span><br>
-        Tahmini kapanış tarihi: <b>yok</b>
-      </div>
-      <p style="margin-top:26px" class="strong">Bugün dünyayla uğraşacak enerjin yoksa uğraşma. Birazını ben taşırım. 🤍</p>
-      <div class="tiny">Bu sayfa sadece seni biraz gülümsetmek için var.</div>
-    </section>
-  </main>
-
+<div class="floaters" id="floaters"></div>
+<section class="screen active" id="intro"><div class="content"><h1>Dünyayı hassas kalpler için cehenneme çevirenlere inat cenneti yaşamaya var mısın sevgilim?</h1><button class="love" onclick="go('question')">Aşka 🤍</button></div></section>
+<section class="screen" id="question"><div class="content"><h2>Değerli bir kalbe güzelliğini hatırlatma vakti gelmedi mi sence?</h2><div class="answers"><button class="yes" onclick="startMemory()">Evet 🤍</button><button class="no" id="noBtn">Hayır</button></div></div></section>
+<section class="screen" id="memory">
+  <img class="photo" src="2288677b-8bde-44b1-8277-3eefd14b0466.JPG" alt="Bir anımız">
+  <img class="photo" src="57cca70a-6719-42df-97b9-c90564348a71.JPG" alt="Bir anımız">
+  <img class="photo" src="9b09e052-b9c6-456e-9559-f22aad1a69a7.JPG" alt="Bir anımız">
+  <img class="photo" src="IMG_1004.HEIC" alt="Bir anımız">
+  <img class="photo" src="IMG_1455.heic" alt="Bir anımız">
+  <div class="memory-shade"></div><div class="typebox"><p id="typed"></p><span class="cursor" id="cursor"></span></div>
+</section>
+<div id="heartScene"><div class="big-heart">💗</div></div>
 <script>
-  function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}
-  function pick(text){document.getElementById('message').textContent=text;go('s3')}
-
-  const hearts=document.getElementById('hearts');
-  const heartSymbols=['♥','♡','♥','♡'];
-  for(let i=0;i<8;i++){
-    const el=document.createElement('span');
-    el.className='float-heart';
-    el.textContent=heartSymbols[i%heartSymbols.length];
-    el.style.left=(4+Math.random()*88)+'%';
-    el.style.fontSize=(14+Math.random()*18)+'px';
-    el.style.animationDuration=(11+Math.random()*8)+'s';
-    el.style.animationDelay=(-Math.random()*16)+'s';
-    el.style.setProperty('--drift',(-32+Math.random()*64)+'px');
-    hearts.appendChild(el);
-  }
-
-  const noBtn=document.getElementById('noBtn');
-  let noMoves=0;
-  function moveNoButton(e){
-    if(e)e.preventDefault();
-    noBtn.classList.add('fleeing');
-    const pad=16;
-    const w=noBtn.offsetWidth||132;
-    const h=noBtn.offsetHeight||56;
-    const maxX=Math.max(pad,window.innerWidth-w-pad);
-    const maxY=Math.max(pad,window.innerHeight-h-pad);
-    let x=pad+Math.random()*(maxX-pad);
-    let y=pad+Math.random()*(maxY-pad);
-    if(e&&typeof e.clientX==='number'){
-      for(let i=0;i<10;i++){
-        const cx=x+w/2,cy=y+h/2;
-        if(Math.hypot(cx-e.clientX,cy-e.clientY)>150)break;
-        x=pad+Math.random()*(maxX-pad);
-        y=pad+Math.random()*(maxY-pad);
-      }
-    }
-    noBtn.style.left=x+'px';
-    noBtn.style.top=y+'px';
-    noBtn.style.transform=`rotate(${(-5+Math.random()*10).toFixed(1)}deg)`;
-    noMoves++;
-    noBtn.textContent=noMoves>4?'Olmaz 😌':noMoves>1?'Emin misin? 🙃':'Hayır';
-    if(navigator.vibrate)navigator.vibrate(18);
-  }
-  ['pointerenter','pointerdown','touchstart','click'].forEach(ev=>noBtn.addEventListener(ev,moveNoButton,{passive:false}));
-
-  const rewards=[
-    ['💋','1 adet öpücük kazandın'],
-    ['🫂','Süresiz sarılma hakkı'],
-    ['🍫','Tatlı borçlandım'],
-    ['🎬','Bu akşam filmi sen seçiyorsun'],
-    ['☕','Kahve benden'],
-    ['👑','Bugün naz yapma kotan sınırsız'],
-    ['❤️','Seni sevme işlemi zaten arka planda çalışıyor']
-  ];
-  function reward(){const r=rewards[Math.floor(Math.random()*rewards.length)];document.getElementById('rewardEmoji').textContent=r[0];document.getElementById('rewardText').textContent=r[1];go('s6');if(navigator.vibrate)navigator.vibrate(35)}
-
-  const area=document.getElementById('holdArea'),heart=document.getElementById('heart'),fill=document.getElementById('fill'),hint=document.getElementById('hint');
-  let timer=null,progress=0;
-  function startHold(e){e.preventDefault();if(timer)return;timer=setInterval(()=>{progress=Math.min(100,progress+2);fill.style.width=progress+'%';heart.style.transform=`scale(${1+progress/180})`;hint.textContent='%'+progress+' şarj';if(progress>=100){clearInterval(timer);timer=null;if(navigator.vibrate)navigator.vibrate([40,40,80]);setTimeout(()=>go('s5'),350)}},45)}
-  function stopHold(){if(timer){clearInterval(timer);timer=null}if(progress<100)hint.textContent='Biraz daha… kalbe basılı tut'}
-  ['pointerdown','touchstart'].forEach(ev=>area.addEventListener(ev,startHold,{passive:false}));
-  ['pointerup','pointercancel','pointerleave','touchend'].forEach(ev=>area.addEventListener(ev,stopHold));
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+const floaters=document.getElementById('floaters');for(let i=0;i<8;i++){const h=document.createElement('span');h.className='fh';h.textContent=i%2?'♡':'♥';h.style.left=(5+Math.random()*90)+'%';h.style.fontSize=(13+Math.random()*17)+'px';h.style.animationDuration=(12+Math.random()*8)+'s';h.style.animationDelay=(-Math.random()*15)+'s';h.style.setProperty('--d',(-35+Math.random()*70)+'px');floaters.appendChild(h)}
+const no=document.getElementById('noBtn');let escapes=0;function escapeNo(e){if(e)e.preventDefault();no.classList.add('running');const pad=18,w=120,h=54;const x=pad+Math.random()*Math.max(1,innerWidth-w-pad*2);const y=pad+Math.random()*Math.max(1,innerHeight-h-pad*2);no.style.left=x+'px';no.style.top=y+'px';escapes++;no.textContent=escapes>3?'Olmaz 😌':escapes>1?'Emin misin? 🙃':'Hayır'}['pointerenter','pointerdown','touchstart'].forEach(ev=>no.addEventListener(ev,escapeNo,{passive:false}));
+const text='Bir meleğin gözyaşlarını hak etmediğini hatırlamak istersen aynaya bak sevgilim. Gözyaşlarını silmek için orada olacağım.';let typingStarted=false;function startMemory(){go('memory');floaters.style.opacity='.35';if(typingStarted)return;typingStarted=true;const out=document.getElementById('typed');let i=0;setTimeout(()=>{const t=setInterval(()=>{out.textContent+=text.charAt(i++);if(i>=text.length){clearInterval(t);document.getElementById('cursor').style.display='none';setTimeout(showHeart,1800)}},58)},900)}function showHeart(){const hs=document.getElementById('heartScene');hs.classList.add('show');setTimeout(()=>{hs.classList.remove('show')},5400)}
 </script>
 </body>
 </html>
