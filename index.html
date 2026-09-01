@@ -18,12 +18,16 @@
     .screen{width:100%;display:none;animation:fade .5s ease both}.screen.active{display:block}
     @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
-    h1{font-size:clamp(38px,11vw,56px);line-height:.98;letter-spacing:-.045em;margin:0 0 18px}
+    h1{font-size:clamp(34px,10vw,52px);line-height:1.02;letter-spacing:-.04em;margin:0 0 18px}
     h2{font-size:32px;line-height:1.05;letter-spacing:-.03em;margin:0 0 14px}
     p{font-size:18px;line-height:1.55;color:var(--muted);margin:0 0 28px}
     .strong{color:var(--text)}
     button{width:100%;border:0;border-radius:18px;padding:17px 18px;font-size:17px;font-weight:700;cursor:pointer}
     .primary{background:var(--text);color:#fff8fa}.ghost{background:var(--card);color:var(--text);margin-top:10px}
+    .intro-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;min-height:58px}
+    .intro-actions .yes{background:var(--text);color:#fff8fa}
+    .intro-actions .no{background:var(--card);color:var(--text);box-shadow:0 8px 24px rgba(75,49,56,.07);touch-action:none}
+    .no.fleeing{position:fixed;width:132px;z-index:20;transition:left .16s ease,top .16s ease,transform .16s ease;box-shadow:0 14px 30px rgba(75,49,56,.14)}
     .choices{display:grid;gap:10px;margin-top:22px}.choice{text-align:left;background:var(--card);color:var(--text);font-weight:600;box-shadow:0 8px 24px rgba(75,49,56,.05)}
     .heart-wrap{height:220px;display:grid;place-items:center;user-select:none;touch-action:none}
     .heart{font-size:86px;transform:scale(1);filter:drop-shadow(0 12px 32px rgba(201,133,150,.28));transition:transform .08s linear}
@@ -34,7 +38,8 @@
     .status{margin-top:28px;padding:18px;border-radius:20px;background:var(--card);font-size:15px;line-height:1.9;color:var(--muted);box-shadow:0 10px 28px rgba(75,49,56,.05)}
     .status b{color:var(--text)}.online{color:#56875f;font-weight:800}
     .tiny{font-size:13px;color:#92767d;margin-top:18px;text-align:center}
-    @media (prefers-reduced-motion:reduce){.float-heart{animation:none;display:none}.screen{animation:none}}
+    @media (max-width:380px){.intro-actions{grid-template-columns:1fr}.no.fleeing{width:118px}}
+    @media (prefers-reduced-motion:reduce){.float-heart{animation:none;display:none}.screen{animation:none}.no.fleeing{transition:none}}
   </style>
 </head>
 <body>
@@ -42,10 +47,13 @@
   <div class="hearts" aria-hidden="true" id="hearts"></div>
   <main>
     <section class="screen active" id="s1">
-      <div class="eyebrow">Sana küçük bir şey yaptım</div>
-      <h1>Cananım,<br>bugün iyi hissetmek zorunda değilsin. 🤍</h1>
-      <p>Biraz olsun yüzünü güldürür mü bilmiyorum ama <span class="strong">yanında olduğumu</span> hatırlatsın istedim.</p>
-      <button class="primary" onclick="go('s2')">Başlat</button>
+      <div class="eyebrow">Cananım 🤍</div>
+      <h1>Dünyayı hassas kalpler için cehenneme çevirenlere inat, cenneti yaşamaya var mısın sevgilim?</h1>
+      <p><span class="strong">Değerli bir kalbe güzelliğini hatırlatma vakti gelmedi mi sence?</span></p>
+      <div class="intro-actions" id="introActions">
+        <button class="yes" onclick="go('s2')">Evet 🤍</button>
+        <button class="no" id="noBtn" aria-label="Hayır">Hayır</button>
+      </div>
     </section>
 
     <section class="screen" id="s2">
@@ -120,6 +128,35 @@
     el.style.setProperty('--drift',(-32+Math.random()*64)+'px');
     hearts.appendChild(el);
   }
+
+  const noBtn=document.getElementById('noBtn');
+  let noMoves=0;
+  function moveNoButton(e){
+    if(e)e.preventDefault();
+    noBtn.classList.add('fleeing');
+    const pad=16;
+    const w=noBtn.offsetWidth||132;
+    const h=noBtn.offsetHeight||56;
+    const maxX=Math.max(pad,window.innerWidth-w-pad);
+    const maxY=Math.max(pad,window.innerHeight-h-pad);
+    let x=pad+Math.random()*(maxX-pad);
+    let y=pad+Math.random()*(maxY-pad);
+    if(e&&typeof e.clientX==='number'){
+      for(let i=0;i<10;i++){
+        const cx=x+w/2,cy=y+h/2;
+        if(Math.hypot(cx-e.clientX,cy-e.clientY)>150)break;
+        x=pad+Math.random()*(maxX-pad);
+        y=pad+Math.random()*(maxY-pad);
+      }
+    }
+    noBtn.style.left=x+'px';
+    noBtn.style.top=y+'px';
+    noBtn.style.transform=`rotate(${(-5+Math.random()*10).toFixed(1)}deg)`;
+    noMoves++;
+    noBtn.textContent=noMoves>4?'Olmaz 😌':noMoves>1?'Emin misin? 🙃':'Hayır';
+    if(navigator.vibrate)navigator.vibrate(18);
+  }
+  ['pointerenter','pointerdown','touchstart','click'].forEach(ev=>noBtn.addEventListener(ev,moveNoButton,{passive:false}));
 
   const rewards=[
     ['💋','1 adet öpücük kazandın'],
