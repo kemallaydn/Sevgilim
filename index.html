@@ -11,7 +11,10 @@
     html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
     body{min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
     .glow{position:fixed;inset:auto 50% -180px auto;width:360px;height:360px;transform:translateX(50%);background:radial-gradient(circle,rgba(255,244,247,.7),transparent 68%);filter:blur(10px);pointer-events:none}
-    main{width:min(100%,480px);min-height:100dvh;padding:calc(24px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center}
+    .hearts{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+    .float-heart{position:absolute;bottom:-60px;color:rgba(201,133,150,.34);font-size:20px;filter:drop-shadow(0 4px 10px rgba(75,49,56,.08));animation:floatUp linear infinite;will-change:transform,opacity}
+    @keyframes floatUp{0%{transform:translate3d(0,0,0) rotate(0deg) scale(.9);opacity:0}12%{opacity:.55}50%{transform:translate3d(var(--drift),-55vh,0) rotate(8deg) scale(1)}88%{opacity:.4}100%{transform:translate3d(calc(var(--drift) * -0.45),-115vh,0) rotate(-8deg) scale(1.08);opacity:0}}
+    main{position:relative;z-index:1;width:min(100%,480px);min-height:100dvh;padding:calc(24px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center}
     .screen{width:100%;display:none;animation:fade .5s ease both}.screen.active{display:block}
     @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
@@ -31,10 +34,12 @@
     .status{margin-top:28px;padding:18px;border-radius:20px;background:var(--card);font-size:15px;line-height:1.9;color:var(--muted);box-shadow:0 10px 28px rgba(75,49,56,.05)}
     .status b{color:var(--text)}.online{color:#56875f;font-weight:800}
     .tiny{font-size:13px;color:#92767d;margin-top:18px;text-align:center}
+    @media (prefers-reduced-motion:reduce){.float-heart{animation:none;display:none}.screen{animation:none}}
   </style>
 </head>
 <body>
   <div class="glow"></div>
+  <div class="hearts" aria-hidden="true" id="hearts"></div>
   <main>
     <section class="screen active" id="s1">
       <div class="eyebrow">Sana küçük bir şey yaptım</div>
@@ -101,6 +106,20 @@
 <script>
   function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}
   function pick(text){document.getElementById('message').textContent=text;go('s3')}
+
+  const hearts=document.getElementById('hearts');
+  const heartSymbols=['♥','♡','♥','♡'];
+  for(let i=0;i<8;i++){
+    const el=document.createElement('span');
+    el.className='float-heart';
+    el.textContent=heartSymbols[i%heartSymbols.length];
+    el.style.left=(4+Math.random()*88)+'%';
+    el.style.fontSize=(14+Math.random()*18)+'px';
+    el.style.animationDuration=(11+Math.random()*8)+'s';
+    el.style.animationDelay=(-Math.random()*16)+'s';
+    el.style.setProperty('--drift',(-32+Math.random()*64)+'px');
+    hearts.appendChild(el);
+  }
 
   const rewards=[
     ['💋','1 adet öpücük kazandın'],
